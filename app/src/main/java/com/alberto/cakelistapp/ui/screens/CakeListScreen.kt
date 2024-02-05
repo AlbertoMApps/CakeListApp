@@ -1,6 +1,5 @@
 package com.alberto.cakelistapp.ui.screens
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,16 +24,13 @@ fun CakeListScreen(
                 state = swipeRefreshState,
                 onRefresh = { viewModel.getCakeList() }
             ) {
-                Text(
-                    text = cakeListState.data[0].title ?: ""
-                )
+                CakeItemScreen(cakeListState.data[0])
             }
         }
 
         cakeListState.errorMessage.isNotEmpty() -> {
             //TODO Error handling here...
         }
-
     }
 
 }
