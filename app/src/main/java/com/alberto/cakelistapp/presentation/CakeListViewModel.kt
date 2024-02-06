@@ -7,7 +7,7 @@ import com.alberto.cakelistapp.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,7 +18,11 @@ class CakeListViewModel @Inject constructor(
 
     private var cakeListJob: Job? = null
     private val _cakeListState = MutableStateFlow(CakeListState())
-    val cakeListState = _cakeListState.asSharedFlow()
+    val cakeListState = _cakeListState.asStateFlow()
+
+    init {
+        getCakeList()
+    }
 
     fun getCakeList() {
         cakeListJob?.cancel()//This is to cancel any asynchronous calls that come back in the future.

@@ -44,13 +44,15 @@ fun CakeItemScreen(cake: Cake) {
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    painter = rememberAsyncImagePainter(model = cake.image),
-                    contentDescription = cake.title,
-                    modifier = Modifier
-                        .size(128.dp)
-                        .weight(4f)
-                )
+                cake.image?.takeIf { it.isNotEmpty() }.let {
+                    Image(
+                        painter = rememberAsyncImagePainter(model = cake.image),
+                        contentDescription = cake.title,
+                        modifier = Modifier
+                            .size(128.dp)
+                            .weight(4f)
+                    )
+                }
                 cake.title?.let {
                     Text(
                         text = it,

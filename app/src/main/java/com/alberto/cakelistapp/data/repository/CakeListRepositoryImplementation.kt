@@ -15,7 +15,7 @@ class CakeListRepositoryImplementation @Inject constructor(
 
     override fun getCakeList(): Flow<Resource<List<Cake>>> = flow {
         emit(Resource.Loading())
-        val cakeList = cakeListApi.getCakeList()
+        val cakeList = cakeListApi.getCakeList().toMutableSet().sortedBy { it.title }
         emit(Resource.Success(data = cakeList))
     }.catch {
         emit(

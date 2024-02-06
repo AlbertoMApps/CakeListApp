@@ -1,10 +1,11 @@
 package com.alberto.cakelistapp.ui.screens
 
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.alberto.cakelistapp.presentation.CakeListState
 import com.alberto.cakelistapp.presentation.CakeListViewModel
 import com.alberto.cakelistapp.ui.theme.CakeListAppTheme
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -15,7 +16,7 @@ fun CakeListScreen(
     viewModel: CakeListViewModel = hiltViewModel()
 ) {
 
-    val cakeListState = viewModel.cakeListState.collectAsState(initial = CakeListState()).value
+    val cakeListState = viewModel.cakeListState.collectAsState().value
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = cakeListState.isLoading)
 
     when {
@@ -24,7 +25,11 @@ fun CakeListScreen(
                 state = swipeRefreshState,
                 onRefresh = { viewModel.getCakeList() }
             ) {
-                CakeItemScreen(cakeListState.data[0])
+                LazyColumn {
+                    items(cakeListState.data) { cake ->
+                        CakeItemScreen(cake = cake)
+                    }
+                }
             }
         }
 
